@@ -1,0 +1,366 @@
+Data Structures in JavaScript -  Part 7 ( Doubly Linked List )
+
+Linked List ကိုရေးခဲ့ပြီးပြီ အခု Doubly Linked List ဆက်ကြည့်မယ်
+
+Doubly Linked List နဲ့ ဘာကွာခြားလဲဆိုရင်
+node တစ်ခုမှာ previous node နဲ့ next node ဆိုပြီးနှစ်ခုရှိမယ်
+
+node တစ်ခုမှာ ရှေ့ node က ဘယ် node
+သူရဲ့ next က ဘယ် node ဆိုပြီး တွဲထားတာ
+
+*************
+
+class Node{
+    constructor(value){
+        this.value = value
+        this.next = null
+        this.prev = null
+    }
+}
+
+*************
+
+A, B, C, D အစဉ်လိုက်ထည့်သွားတယ်
+
+A ထည့်မယ်ဆိုရင် prev => null, next => null
+B ထည့်မယ်ဆိုရင် prev => A, next => null
+
+Linked မှာက head တစ်ခုတည်းနဲ့ရေးခဲ့မယ်
+
+DoublyLinkedList အတွက်က 
+သူ့မှာက head ရှိမယ် tail ရှိမယ်
+size မှတ်ထားမယ်
+
+A, B ရှိတယ်ဆိုရင် 
+
+A (next => B)
+B (prev => A) အဲ့လိုသွားမှာ
+
+*************
+
+class DoublyLinkedList{
+    constructor(){
+        this.head = null
+        this.tail = null
+        this.size = 0
+    }
+}
+
+*************
+
+DoublyLinkedList ထဲကို insert လုပ်တာ နဲ့ remove လုပ်တာ
+ရေးကြည့်မယ်
+
+/*---------- insertAt ----------*/
+
+LinkedList တုန်းက အတိုင်းပဲ position က valid ဖြစ်လား
+စစ်မယ်
+
+position က zero ဖြစ်နေရင် 
+head နဲ့ tail က node အတူတူပဲဖြစ်သွားမယ်
+if(position === 0){
+    this.head = node
+    this.tail = node
+}
+
+ပထမ တစ်ခုထည့်ပြီးသား ကို position zero နဲ့ ထပ်ထည့်ရင်
+ပထမရှိပြီးသား node က replace ဖြစ်သွား သွားတယ်
+အဲ့တာကို ရှင်းဖို့က ထပ်ထည့်တဲ့အချိန် head က ရှိပြီးသားလား 
+ထပ်စစ်ရတယ်
+
+B ရှိမယ် position 0 နဲ့ A ထပ်ထည့်မယ်
+B က current
+B (prev => A)
+A (prev => B)
+node.next = current
+current.prev = node
+this.head = node
+
+
+condition က position >= 0 && position <= this.size
+အဲ့လိုဖြစ်သွားမယ်
+
+let current = this.head;
+let prev = null; ကြေညာထားမယ်
+
+position === size နဲ့ညီရင် အဲ့တာက နောက်ဆုံးကို ထပ်ထည့်တာ
+
+A, B, C ရှိပြီးသား D ထပ်ထည့်မယ်
+အရင်ထည့်ခဲ့တဲ့ နောက်ဆုံး node က tail (C) ထဲမှာရှိမယ်
+tail က C ဖြစ်တယ်
+current ထဲကို tail ထည့်မယ် 
+current = this.tail 
+
+C ရဲ့ next က D (D က အသစ်ထည့်တဲ့ node)
+current.next = node
+
+အခု အသစ်ထပ်ထည့်မယ့် node ရဲ့ prev က C ဖြစ်မယ်
+node.prev = current 
+
+အဲ့ အသစ်ထပ်ထည့်တဲ့ node က tail ဖြစ်သွားမယ်
+အဲ့ node ကို tail ထဲပြန်ထည့်ရမယ်
+tail = current
+
+After, A, B, C, D က tail 
+
+if(position === this.size){
+    current = this.tail
+    current.next = node
+    node.prev = current
+    this.tail = node
+}
+
+အလယ်မှာထည့်တာ စဉ်းစားမယ်
+အရင်ဆုံး node ကိုရှာပေးရမယ်
+while နဲ့ရှာမယ် linked list နဲ့ flow တူတူပဲ
+
+A B D ရှိတယ် C ထပ်ထည့်မယ် 
+C က B နဲ့ D ကြားမှာရှိမယ်
+B ရဲ့ next က C ဖြစ်ပြီး C ရဲ့ next က D ဖြစ်မယ်
+
+C က new Node
+while နဲ့ရှာရင် 
+D က current 
+B က previous
+
+C (next => D )
+C (prev => B)
+node.next = current
+prev.node = node
+
+C က ချိတ်ပြီးသွားပြီ B, D မှာထပ်ချိတ်ဖို့လိုတယ်
+D (prev => C)
+C (prev => B)
+current.prev = node
+node.prev = prev
+
+*************
+
+insertAt(position, value) {
+    if (position >= 0 && position <= this.size) {
+        let node = new Node(value)
+        let current = this.head;
+        let prev = null
+
+        if (position === 0) {
+            if(!this.head){
+                this.head = node
+                this.tail = node
+            }else{
+                node.next = current
+                current.prev = node
+                this.head = node
+            }
+        } else if (position === this.size) {
+            current = this.tail
+            current.next = node
+            node.prev = current
+            this.tail = node
+        } else {
+            let i = 0;
+            while (i < position) {
+                prev = current
+                current = current.next
+                i++
+            }
+            node.next = current
+            prev.next = node
+            
+            current.prev = node
+            node.prev = prev
+        }
+        this.size++
+        return true
+    } else {
+        return false
+    }
+}
+
+*************
+
+/*---------- removeAt ----------*/
+
+position နဲ့ဖျက်တာကိုဆက်ရေးကြည့်မယ်
+position က 0 က စမယ် size ထက်ငယ်ရမယ်
+
+if(position >= 0 && position < this.size)
+
+let current = this.head;
+let prev = null ရှိမယ်
+
+position က zero ဖြစ်မယ် size က တစ်ခုတည်းဆို 
+tail က null ဖြစ်သွားမယ် 
+
+A, B, C ရှိတယ်
+
+head ထဲမှာ B, C ကျန်ခဲ့မယ်
+tail ထဲမှာလည်း B,C ပဲကျန်မယ်
+
+B ရဲ့ prev က A ဖြစ်နေမှာ
+B (prev => null)
+
+******************
+
+let current = this.head
+let prev = null
+this.head = current.next
+
+if(this.size === 1){
+    this.tail = null
+}else{
+    this.head.prev = null
+}
+
+******************
+
+နောက်ဆုံးတစ်ခုဖျက်မယ်ဆိုရင် tail ကိုသုံးမယ်
+
+tail က Node C (
+    next => null,
+    prev => B ( next => C, prev => A)
+)
+let current = this.tail;
+this.tail = current.prev
+
+tail က B ( next => C, prev => A)
+next က null ဖြစ်သွားမယ် 
+this.tail.next = null     
+
+******************
+
+if(position === this.size - 1){
+    let current = this.tail;
+    this.tail = current.prev
+    this.tail.next = null                
+}
+
+******************
+
+A B C D ထဲက C ကိုဖျက်မယ်
+B (prev)
+C (current)
+
+C ကို remove
+B (next => D)
+D (prev = B)
+
+prev.next = current.next
+current.next.prev = prev
+
+*****************
+
+else{
+    let i = 0;
+    while (i < position) {
+        prev = current
+        current = current.next
+        i++
+    }
+    prev.next = current.next
+    current.next.prev = prev
+}
+
+Code Sample: 
+******************
+
+class Node {
+    constructor(value) {
+        this.value = value
+        this.next = null
+        this.prev = null
+    }
+}
+
+class DoublyLinkedList {
+    constructor() {
+        this.head = null
+        this.tail = null
+        this.size = 0
+    }
+
+    insertAt(position, value) {
+        if (position >= 0 && position <= this.size) {
+            let node = new Node(value)
+            let current = this.head;
+            let prev = null
+
+            if (position === 0) {
+                if(!this.head){
+                    this.head = node
+                    this.tail = node
+                }else{
+                    node.next = current
+                    current.prev = node
+                    this.head = node
+                }
+            } else if (position === this.size) {
+                current = this.tail
+                current.next = node
+                node.prev = current
+                this.tail = node
+            } else {
+                let i = 0;
+                while (i < position) {
+                    prev = current
+                    current = current.next
+                    i++
+                }
+                node.next = current
+                prev.next = node
+                
+                current.prev = node
+                node.prev = prev
+            }
+            this.size++
+            return true
+        } else {
+            return false
+        }
+    }
+
+    removeAt(position){
+        if(position >= 0 && position < this.size){
+            let current = this.head;
+            let prev = null
+            this.head = current.next
+
+            if(position === 0){
+                if(this.size === 1){
+                    this.tail = null
+                }else{
+                    this.head.prev = null
+                }
+            }else if(position === this.size - 1){
+                let current = this.tail;
+                this.tail = current.prev
+                this.tail.next = null                
+            }else{
+                let i = 0;
+                while (i < position) {
+                    prev = current
+                    current = current.next
+                    i++
+                }
+                prev.next = current.next
+                current.next.prev = prev
+            }
+        }else{
+            return null
+        }
+    }
+}
+
+const node = new DoublyLinkedList()
+node.insertAt(0, 'A')
+node.insertAt(1, 'B')
+node.insertAt(2, 'C')
+node.insertAt(3, 'D')
+node.removeAt(2)
+
+******************
+node တွေ ချိတ်တာက စစချင်းဆို ရှုတ်နေလိမ့်မယ်
+code မကြည့်သေးဘဲ အရင်ဆုံး flow စဉ်းစားရမယ်
+ပြီးမှာ စရေးတာ အဆင်ပြေတယ်
+
+
+🍀🍀🍀🍀

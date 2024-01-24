@@ -1,0 +1,390 @@
+Data Structures in JavaScript -  Part 6 ( Linked List -  only head)
+
+Linked List က array လို eg. [1,2,3,4] အဲ့လိုမသွားဘူး
+
+သူက ဘာနဲ့ တူလဲဆိုရင် မီးရထားနဲ့ဆင်တယ်
+တစ်တွဲနဲ့ တစ်တွဲကို ချိတ်ထားတယ်ပေါ့
+
+တစ်ခါတစ်လေကျရင် ဘူတာတွေမှာ ရထားတွဲတွေပဲရှိတယ်
+ရထားခေါင်းမရှိဘူး ခနနေကျရင် ရထားခေါင်းက ရောက်လာပြီး
+ပထဆုံးတစ်ခုကို ချိတ်ပြီးဆွဲသွားလိုက်တော့ ကျန်တဲ့ အတွဲတွေ 
+အကုန်လုံးက အဆင့်ဆင့်ချိတ်ထားတော့ အကုန်ပါသွားကော
+
+eg. 
+
+A - B - C - D 
+
+ရှိမယ်ဆိုရင် A က B နဲ့ချိတ်မယ်
+B က C နဲ့ချိတ်တယ်
+C က D နဲ့ချိတ်တယ်
+D က နောက်မှာ ချိတ်ထားတာမရှိဘူး
+
+အဲ့တော့ ကျနော်တို့က C အတွဲကို ချန်ခဲ့မယ်ဆိုရင်
+C နဲ့ ချိတ်ထားတဲ့ D ပါ ကျန်ခဲ့မှာပါ
+A - B ပဲကျန်မယ် 
+
+
+eg.
+A ထဲမှာ 1 , B ထဲမှာ 2, C ထဲမှာ 3, D ထဲမှာ 4 ရှိတယ်လို့မှတ်ထားမယ်
+
+
+A က Node တစ်ခုဖြစ်မယ် သူ့မှာ value နဲ့ next ဆိုပြီးရှိမယ်
+value က 1 ဖြစ်ပြီး
+next ထဲမှာ B ရှိမယ်
+
+B ထဲမှာလည်း value နဲ့ next ဆိုပြီးရှိမယ်
+value က 2 
+next က C
+
+C ထဲမှာလည်း value နဲ့ next ဆိုပြီးရှိမယ်
+value က 3 
+next က D
+
+D ထဲမှာလည်း value နဲ့ next ဆိုပြီးရှိမယ်
+value က 4 
+next က null ဖြစ်သွားမယ်
+
+အဲ့တာကို Code ရေးကြည့်ရအောင်
+
+Node အတွက်က
+
+class Node{
+    constructor(value){
+        this.value = value
+        this.next = null
+    }
+}
+
+List အတွက်က သူ့မှာက head ရှိမယ် size မှတ်ထားမယ်
+
+class LinkedList{
+    constructor(){
+        this.head = null
+        this.size = 0
+    }
+}
+
+/*---------- Prepend ----------*/
+
+ပြီးရင် prepend ရှေ့ဆုံးကနေ ထပ်ထည့်တဲ့ method
+append နောက်ဆုံးကနေထပ်ထည့်တဲ့ method
+လေးစမ်း‌ရေးကြည့်ကြမယ်
+
+
+prepend (ရှေ့ဆုံးကနေ ထပ်ထည့်တာ)
+value ကို ရှေ့ဆုံးကို ထည့်ရမှာ
+
+ရှေ့ဆုံးက ထည့်မှာမိုလို့ D အရင်ထည့်မယ်
+C ထပ်ထည့်ရင် C က ရှေ့ဆုံးရောက်မယ် next က D
+B ထပ်ထည့်ရင် B က ရှေ့ဆုံးရောက်မယ် next က C
+A ထပ်ထည့်ရင် A က ရှေ့ဆုံးရောက်မယ် next က B
+
+Flow ကို မြင်တယ်ဆိုရင်
+အသစ်ထပ်ထည့်မယ့် node
+const node = new Node(value) 
+
+head ထဲမှာ တစ်ခုမှ မရှိခဲ့ရင် head ထဲကို node ကို ထည့်မယ်
+head ထဲမှာ ရှိခဲ့ရင် အဲ့ဒီ head က အသစ်ထပ်ထည့်တဲ့ 
+node ထဲက next ထဲ ဝင်ရမယ် အဲ့တာမှချိတ်မိမှာ
+node.next = this.head
+
+ပြီးရင် node ကို Head ထဲပြန်ထည့်တာ
+this.head = node
+
+*******************
+
+prepend(value){
+    const node = new Node(value)
+    if(this.is_empty()){
+        this.head = node
+    }else{
+        node.next = this.head
+        this.head = node
+    }
+    this.size++
+    return value
+}
+
+Node 
+{
+    value: 'A',
+    next: Node { 
+        value: 'B', 
+        next: Node { 
+            value: 'C', 
+            next: {value: 'D', next: null} 
+        } 
+    }
+}
+
+*******************
+
+/*---------- Append ----------*/
+
+Linked List ကို မြင်ပြီလိုထင်ပါတယ်
+ရှေ့ဆုံးက ထည့်တာ ရေးပြီးပြီးဆိုတော့ နောက်ဆုံးကထည့်တာ
+ရေးကြည့်ပါမယ်
+
+A, B, C, D အစဉ်လိုက်ထည့်သွားတယ်
+
+A စထည့်မယ်ဆိုရင် { value: 'A', next : null }
+
+B ထပ်ထည့်မယ် နောက်ဆုံးကထည့်မှာ ဖြစ်လို့
+{ value: 'A', next : { value: 'B', next : null } }
+
+C ထပ်ထည့်မယ် နောက်ဆုံးကထည့်မှာ ဖြစ်လို့
+{ value: 'A', next : { value: 'B', next : { value: 'C', next : null } } }
+
+အဲ့လိုထည့်သွားမှာပါ
+
+next က null ဖြစ်တဲ့နေရာမှာ အသစ်ထည့်ရမှာ ဖြစ်လို့
+
+စဉ်းစားနည်းက 
+null ဖြစ်တဲ့ အထိကို loop နဲ့ ရှာပြီးထည့်မယ်
+loop ပါလာပြီဖြစ်လို့ O(n) ဖြစ်သွားမယ် 
+ပိုကြာနိုင်တယ်
+
+next က null ဖြစ်တဲ့ node ကိုရှာမယ်
+အဲ့လိုမျိုး အစ/အဆုံးလည်းမသိ condition ပေါ်မူတည်ပြီး 
+စစ်တဲ့အခြေအနေမျိုးဆို while loop ကိုသုံးလို့ရတယ်
+
+let current = this.head
+while(current.next) next ထဲမှာ value ရှိနေတဲ့ကာလလုံး
+loop ပတ်နေမယ် next null ဖြစ်တဲ့အချိန် loop ကထွက်သွားမယ်
+
+စစချင်းထည့်တဲ့ အချိန် ဘာမှမရှိသေးလို့ 
+if(this.is_empty()){
+    this.head = node
+} ဒီ code အလုပ်လုပ်သွားမယ်
+Result က { value: 'A', next : null }
+
+B ထပ်ထည့်ရင် 
+let current = this.head;
+while(current.next){
+    current = current.next
+}
+current ထဲမှာက A , A ရဲ့ next က null
+အဲ့တော့ သူက condition မကိုက်လို့ while ထဲမဝင်ဘူး
+current.next = node လုပ်သွားမယ်
+
+C ထပ်ထည့်ရင်
+while ထဲဝင်လာမယ် current က B ဖြစ်သွားမယ်
+B.next ထဲကို node ဝင်သွားမယ်
+
+ကျနော်တို့က head ကို တိုက်ရိုက်မပြင်ဘဲ current ဆိုတဲ့ variable
+ကို ပြင်နေတယ်
+
+headပါပြောင်းသွားတယ် မှတ်ထားရမှာက Object တွေက 
+Reference အနေနဲ့ အလုပ်လုပ်လို့ မူရင်း Object ကို ပြောင်းသွားတာ
+ပါပဲ
+
+******************
+
+append(value){
+    let node = new Node(value)
+    if(this.is_empty()){
+        this.head = node
+    }else{
+        let current = this.head;
+        while(current.next){
+            current = current.next
+        }
+        current.next = node
+    }
+    this.size++
+}
+
+//O(n)
+
+******************
+
+/*---------- Insert ----------*/
+
+ရှေ့ကလည်း မဟုတ်ဘူး နောက်ကလည်းမဟုတ်ဘူး
+ကိုယ်လိုချင်တဲ့နေရာကို ကြားဖြတ်ပြီးထည့်လိုက်တဲ့ 
+method လေးရေးကြည့်ရအောင်
+
+A, B, D ဆိုပြီးရှိတယ်
+C ကို B နောက်မှာထပ်ထည့်မယ် 
+B ရဲ့ next က C ( ထပ်ထည့်တဲ့ value)
+C ရဲ့ next က D ပြန်ထည့်ရမယ်
+အဲ့ကျမှ A, B, C, D ဆိုပြီးဖြစ်သွားမယ်
+
+ကြားဖြတ်ထည့်မှာဆိုတော့ ဘယ်နေရာမှာထည့်မှာလဲ
+ဆိုတဲ့ index( position ) လိုမယ် 
+B အပိုင်းတစ်ခုရှိမယ် (prev လို့ခေါ်မယ်)
+D အပိုင်းတစ်ခုရှိမယ် (cur လို့ခေါ်မယ်)
+အဲ့ကြားထဲထည့်မယ်
+
+Validation စစ်မယ်
+index က Number သူက 0 က စမယ် 
+size ထက်ငယ်ရမယ်
+if(position < 0 || position > this.size){
+    return "error"
+}
+
+index က zero ဖြစ်ခဲ့ရင် head ထဲက အကုန်လုံးက
+value ရဲ့ next ထဲ‌ ရောက်သွားမယ်
+head ထဲကို value assign ပြန်ထည့်မယ်
+node.next = this.head
+this.head = node
+prepend method ရှေ့ဆုံးက ထည့်တာနဲ့ တူတူပဲ
+if (position === 0) {
+    this.prepend(value)
+}
+
+******************
+
+insert(position, value){
+    if (position < 0 || position > this.size) {
+        return false
+    }
+
+    if (position === 0) {
+        return this.prepend(value)
+    } else {
+        let node = new Node(value)
+        let current = this.head;
+        let prev = null
+        let i = 0;
+        while (i < position) {
+            prev = current
+            current = current.next
+            i++
+        }
+        //current { value: 'E', next: null }
+        //prev { value: 'B', next: Node { value: 'E', next: null }
+        node.next = current
+        prev.next = node
+        this.size++
+    }
+}
+
+******************
+
+/*---------- index_of ----------*/
+
+value နဲ့ တိုက်ရှာပြီး index ထုတ်ကြည့်ကြမယ်
+head ထဲက value က တိုက်စစ်မယ့် element နဲ့ တူလား
+တူရင် index ကို return ပြန်မယ် 
+မတူရင် -1
+
+ဒါလေးက ရှင်းတယ်
+
+******************
+
+index_of(element){
+    let current = this.head
+    let i = 0
+    while(current){
+        if(current.value === element){
+            return i
+        }
+        i++
+        current = current.next
+    }
+    return -1
+}
+
+******************
+
+/*---------- print ----------*/
+
+head ထဲက item ကို print ထုတ်ပြတာ ရေးကြည့်ကြမယ်
+
+******************
+
+print(){
+    let current = this.head
+    let str = ''
+    while(current){
+        str += current.value + ' ' 
+        current = current.next
+    }
+    return str
+}
+
+******************
+
+/*---------- remove_at ----------*/
+
+position ကိုပေးလိုက်မယ် index === position တူတာကို 
+ရှာပြီး remove လုပ်လိုက်မယ်
+
+A, B, C, D 
+
+position က 2 ဆိုရင် element C
+အဲ့က C ကို ဖျက်လိုက်မယ်ဆိုရင် သတိထားရမှာက
+C မှာ က next ရှိတယ် အဲ့တာကို B နဲ့ပြန်ချိတ်ပေးရမယ်
+A, B, D ဖြစ်သွားမယ်
+
+remove လုပ်ပြီးရင် size ကို လျော့ရမယ်
+
+remove_at(position) {
+    if(position < 0 || position >= this.size) {
+        return false
+    }
+    let current = this.head
+    if (position === 0) {
+        this.head = current.next
+    } else {
+        let prev;
+        let i = 0
+        while (i < position) {
+            prev = current
+            current = current.next
+            i++
+        }
+        prev.next = current.next
+        this.size--
+    }
+}
+
+
+/*---------- remove ----------*/
+
+element pass လိုက်မယ် head ထဲမှာ value တူတာကို ရှာပြီ;
+remove လုပ်လိုက်မယ်
+
+******************
+
+remove(element) {
+    let current = this.head
+    let prev;
+    while (current) {
+        if (current.value === element) {
+            break;
+        }
+        prev = current
+        current = current.next
+    }
+
+    if(current == null){
+        return false
+    }else{
+        prev.next = current.next
+        this.size--
+    }
+}
+
+******************
+
+
+အဲ့လို ရေးလို့ရမယ်
+ကျနော်တို့က remove(index) နဲ့ဖျက်တာလည်း ရေးပြီးသာ
+index_of(element) index နဲ့ element ရှာတာလည်း
+ရေးပြီးသား အဲ့တာဆိုရင်
+index_of(element)
+remove(index) အဲ့နှစ်ခု သုံးလိုက်ရင်လည်းအဆင်ပြေပြီ
+
+******************
+
+remove(element) {
+    let index = this.index_of(element)
+    this.remove_at(index)
+}
+
+******************
+
+အဲ့ method တွေပါ value တွေပါတွေလိုချင်ရင်
+return ပြန်လိုက်နော်

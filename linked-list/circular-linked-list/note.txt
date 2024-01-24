@@ -1,0 +1,195 @@
+Data Structures in JavaScript -  Part 8 ( Circular Linked List )
+
+Linked List မှာ ဆိုရင် နောက်ဆုံး node က ချိတ်ထားတာ မရှိတော့ဘူး
+Circular Linked List က နောက်ဆုံး node ဆို ရှေ့ဆုံး node နဲ့ ပြန်ချိတ်တာ
+
+
+နောက်ဆုံး node က ရှေ့ဆုံးနဲ့ပြန်ချိတ်ပေးရမယ်
+tail (next => head)
+
+/*---------- Prepend ----------*/
+
+Prepend - prepend ရှေ့ဆုံးကနေ ထပ်ထည့်တဲ့ method
+စစချင်းက node ရှိမရှိစစ်မယ်
+
+A ရှိမယ် B ထပ်ထည့်မယ်
+A (next => B) this.head = node
+B (next => A) this.tail.next = this.head
+
+if(!this.head){
+    this.head = node
+    this.tail = node
+    this.tail.next = this.head
+}
+
+node ရှိခဲ့ရင် ရှေ့ဆုံးက ထည့်မှာဖြစ်လို့
+node (next => this.head)
+this.head = node
+
+ပြီးရင် head နဲ့ tail ပြန်ချိတ်ပေးရမယ်
+this.tail.next = this.head
+
+else{
+    node.next = this.head
+    this.head = node
+    this.tail.next = this.head
+}
+
+*******************
+
+prepend(value) {
+    let node = new Node(value)
+    if(!this.head){
+        this.head = node
+        this.tail = node
+        this.tail.next = this.head
+    }else{
+        node.next = this.head
+        this.head = node
+        this.tail.next = this.head
+    }
+    this.size ++
+}
+
+*******************
+
+/*---------- Remove ----------*/
+
+ရှေ့က ထည့်ထားလို့ ရှေ့က ပြန်ဖျက်မယ်
+
+node တစ်ခုတည်းရှိခဲ့ရင် head‌ ကော tail ကော null
+ဖြစ်သွားမယ်
+
+
+********************
+
+remove(){
+    if(this.size === 1){
+        this.head = null
+        this.tail = null
+    }else{
+        let current = this.head
+        this.head = current.next
+        this.tail.next = current.next
+    }
+    this.size--
+}
+
+********************
+
+/*---------- Print ----------*/
+
+အရင်တုန်းက Print ရေးတုန်းက
+while နဲ့ next null ဖြစ်တဲ့ အတိရှာခဲ့တာ
+
+အခုက next က head ပြန်ဖြစ်သွားလို့
+next null condition မရှိတော့ဘူး
+
+next က head နဲ့တူတဲ့အထိရှာရမယ်
+အနည်းဆုံး တစ်ကြိမ် အလုပ်လုပ်စေချင်လို့
+do while သုံးမယ်
+
+*******************
+
+print() {
+    let current = this.head
+    let str = ''
+    while (current) {
+        str += current.value + ' '
+        current = current.next
+    }
+    return str
+}
+
+cur B  => next  C
+cur C  => next  A
+cur A  => next  B
+
+*******************
+
+Code Sample
+
+*******************
+
+class Node {
+    constructor(value) {
+        this.value = value
+        this.next = null
+    }
+}
+
+class CircularLinkedList {
+    constructor() {
+        this.head = null
+        this.tail = null
+        this.size = 0
+    }
+
+    prepend(value) {
+        let node = new Node(value)
+        if (!this.head) {
+            this.head = node
+            this.tail = node
+            this.tail.next = this.head
+        } else {
+            node.next = this.head
+            this.head = node
+            this.tail.next = this.head
+        }
+        this.size++
+    }
+
+    remove(){
+        if(this.size === 1){
+            this.head = null
+            this.tail = null
+        }else{
+            let current = this.head
+            this.head = current.next
+            this.tail.next = current.next
+        }
+        this.size--
+    }
+
+
+    print() {
+        let current = this.head;
+        if(current === null){
+            console.log("List is empty")
+        }else{
+            do {
+                current = current.next;
+                console.log("cur", current.value, " => next ", current.next.value)
+            } while (current !== this.head);
+        }
+    }
+
+}
+
+const list = new CircularLinkedList()
+list.prepend('C')
+list.prepend('B')
+list.prepend('A')
+list.print()
+
+list.remove()
+list.remove()
+console.log("After remove")
+list.print()
+
+
+*******************
+
+Note: Linked List ကိုရေးပြီးသွားပြီပြီ
+
+Linked List ကို real world ဘယ်မှာသုံးလို့ရလဲဆိုရင်
+Image Viewer (Next နဲ့ Previous ပါမယ်)
+
+Browser Navigation မှာဆိုလည်း <- နဲ့ -> မျှားနှစ်ခုပါတယ်
+Previous ပြန်သွားတာ အဲ့တာလည်းရေးလို့ရတယ် 
+
+တချို့ company တွေက coding test မှာ Data Structures ကို 
+ဖြေခိုင်းတာလည်းရှိတယ်
+
+
+🍀🍀🍀🍀

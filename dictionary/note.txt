@@ -1,0 +1,42 @@
+Data Structures in JavaScript -  Part 9 ( Dictionaries )
+
+Dictionary ကို  လူတိုင်း ကြည့်ဖူးမှာပါ
+
+သူ့က [key, value] pairs
+[key, value] တွေတွဲသိမ်းတာကို dictionary လို့ခေါ်တယ်
+
+example အနေနဲ့ dictionary တစ်ခုခုမှာ computer ဆိုပြီးသွားရိုက်
+ရှာကြည့်လိုက်ရင် 
+ 
+computer [key] - a machine that sends, receives, calculates, and stores information [value]
+ဆိုပြီးတွေ့ရမယ်
+
+Dictionary ကို Map လို့လည်း ခေါ်ကြတယ်
+Map အကြောင်းရေးထားတာရှိတယ်
+https://www.facebook.com/permalink.php?story_fbid=122127110000102747&id=61553082429213
+
+PHP လေ့လာဖူးတဲ့သူတွေသိလိမ်မ့ယ် Dictionary က Associative array နဲ့တူတူပဲ
+$car = array("brand"=>"Ford", "model"=>"Mustang", "year"=>1964);
+
+.....................
+
+in operator
+
+သူက boolean return ပြန်တယ် Object ထဲမှာ key ရှိလား စစ်လို့ရတယ်
+
+const car = { make: 'Honda', model: 'Accord', year: 1998 };
+console.log('makes' in car); //true 
+(make ဆိုတဲ့ key က car object ထဲမှာရှိတယ်)
+console.log('type' in car); //false
+(type ဆိုတဲ့ key က car object ထဲမှာမရှိဘူး)
+
+.....................
+
+Object လိုမျိုး key, value သိမ်းလို့ရတဲ့ Dictionary တစ်ခု ရေးကြည့်ရအောင်
+
+
+
+
+🍀🍀🍀🍀
+
+Ref: Learning-JavaScript-Data-Structures-and-Algorithms-Second-Edition.pdf

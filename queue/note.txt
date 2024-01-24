@@ -1,0 +1,132 @@
+Data Structures in JavaScript -  Part 3 ( Queue )
+
+Queue (FIFO) First In, First Out
+
+သူက ဘာနဲ့တူလဲဆိုတော့ စာအုပ်စင်မှာ စာအုပ်ကို  ထောင်ပြီး စီထားတာ
+နဲ့ဆင်တယ်
+အပြင်မှာဆိုရင် Counter ရှေ့မှာ တန်းစီနေသလိုပဲလေ (first come first served)
+အရင်လာတဲ့သူ အရင် ရမယ်
+
+အဲ့တော့ သူမှာ့ ဘယ်လို function တွေပါမလဲ စဉ်းထားကြည့်ရအောင်
+enqueue - Add New (နောက်ဆုံးမှာရှိမယ်)
+dequeue - ‌(first come first served) ရှေ့ဆုံးရောက်လာတဲ့ဟာကို
+          ဖယ်လိုက်မယ်
+peek - ရှေ့ဆုံးက item ကို ထုတ်ကြည့်မယ်
+size - စုစုပေါင်း တန်းစီးတာဘယ်နှစ်ယောက်ရှိတယ်
+is_empty - တန်းစီနေတဲ့ သူရှိမရှိစစ်တာ
+
+****************************
+
+class Queue{
+    constructor(){
+        this.items = []
+    }
+
+    enqueue(item){
+        this.items.push(item)
+    }
+
+    dequeue(){
+        return this.items.shift()
+    }
+
+    is_empty(){
+        return this.items.length === 0
+    }
+
+    peek(){
+        // ပထမဆုံးတစ်ခုပဲ ထုတ်ပေးရုံပဲ index 0 ထုတ်လိုက်တာ
+        // empty array ဖြစ်နေမှာစိုးလို့ validation ထပ်စစ်မယ်
+        return this.is_empty() ? null : this.items[0]
+    }
+
+    size(){
+        return this.items.length
+    }
+}
+
+const queue = new Queue()
+console.log(queue.is_empty()) // true တစ်ခုမှမထည့်ရသေးလို့
+
+queue.enqueue("HTML")
+queue.enqueue("CSS")
+queue.enqueue("JS")
+queue.enqueue("NODEJS")
+
+queue.dequeue() // တစ်ခုဖျက်လိုက်မယ် HTML ပျက်သွားမယ်
+console.log(queue.peek()) // CSS ထွက်လာမယ်
+console.log(queue.is_empty()) // false (3ခုရှိနေလို့)
+console.log(queue.size()) // 3
+
+****************************
+
+Shift/unshift - O(n) လို့မှတ်မို့ရတယ်
+အဲ့တာကို Constant Time ဖြစ်အောင် ဘယ်လိုပြင်ရေးကြမယ်
+variable နှစ်ခုထပ်ထည့်မယ် (rear-နောက်ဆုံး/ front-ရှေ့ဆုံး)
+ရှေ့ဆုံး index နဲ့ နောက်ဆုံး index ကို မှတ်ထားမယ် 
+ထပ်ထည့်ရင် နောက်ဆုံး (rear) ကို 1 တိုးသွားမယ်
+
+
+****************************
+
+class Queue{
+    constructor(){
+        this.items = []
+        this.front = 0;
+        this.rear = 0;
+    }
+
+    enqueue(item){
+        // push မသုံးတော့ဘူး နောက်ဆုံး index ကိုမှတ်ထားပြီးသားဆိုတော့
+        // အဲ့ index ကို သုံးလိုက်တယ်
+        this.items[this.rear] = item
+        this.rear++
+    }
+
+    dequeue(){
+        // ရှေ့ဆုံး index ကိုမှတ်ထားတာရှိလို့ အဲ့တာကိုသုံးထားတယ်
+        // array က delete လုပ်လိုက်လည်း [ <1 empty item>, 'CSS', 'JS', 'NODEJS' ]
+        // နေရာက ရှိနေဆဲမိုလို့ front ကို 1 တိုးပြီး 
+        // လက်ရှိ နေရာကို ပြန်မှတ်ထားတယ်
+        const item = this.items[this.front]
+        delete this.items[this.front]
+        this.front++
+        return item
+    }
+
+    is_empty(){
+        // rear - front က zero ဖြစ်ရင် empty
+        return this.rear - this.front === 0
+    }
+
+    peek(){
+        // ရှေ့ဆုံး index ကို မှတ်ထားပြီးသားဖြစ်နေလို့
+        // this.front ကိ သုံးရမယ်
+        // empty array ဖြစ်နေမှာစိုးလို့ validation ထပ်စစ်မယ်
+        return this.is_empty() ? null : this.items[this.front]
+    }
+
+    size(){
+        // [ <1 empty item>, 'CSS', 'JS', 'NODEJS' ]
+        // empty ပါနေတော့ array length က မှန်မှာမဟုတ်ဘူး
+        // fornt - rear ဆိုရင် length ရပြီ
+        return this.rear - this.front
+    }
+}
+
+const queue = new Queue()
+console.log(queue.is_empty()) // 0-0 === 0 တစ်ခုမှမထည့်ရသေးလို့
+
+queue.enqueue("HTML")
+queue.enqueue("CSS")
+queue.enqueue("JS")
+queue.enqueue("NODEJS")
+queue.dequeue() // တစ်ခုဖျက်လိုက်မယ် HTML ပျက်သွားမယ်
+
+console.log('queue', queue.items)
+
+console.log(queue.peek()) // CSS ထွက်လာမယ်
+console.log(queue.is_empty()) // 4-1 != 0 (3ခုရှိနေလို့)
+console.log(queue.size()) // 3
+
+****************************

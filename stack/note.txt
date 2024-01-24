@@ -1,0 +1,81 @@
+Data Structures in JavaScript -  Part 2 ( Stack )
+
+Stack (LIFO) Last in, first out
+
+သူက ဘာနဲ့တူလဲ ဆိုတော့ စာအုပ်ကို တစ်အုပ်ပြီးတစ်အုပ် ထပ်သွားတာမျိုးနဲ့တူတယ်
+နောက်ဆုံးထပ်လိုက်တဲ့ စာအုပ်က (Last in) အပေါ်ဆုံးမှာရှိတော့ (First Out)
+အပေါ်ဆုံးက ဟာကိုတစ်ခုချင်းပြန်ယူသွားရမယ် အဲ့ကျမှ ပထဆုံး တစ်အုပ်
+ပြန်ရမယ်
+
+အဲ့တော့ သူမှာ့ ဘယ်လို function တွေပါမလဲ စဉ်းထားကြည့်ရအောင်
+
+စာအုပ်ကိုထပ်ထည့်တာ - push
+အပေါ်ဆုံးစာအုပ်ကိုဖယ်လိုက်တာ -  pop
+အပေါ်ဆုံးမှာ ရှိတဲ့စာအုပ်က ကိုထုတ်ပြတာ - peek
+စာအုပ်တွေရှိလား မရှိလား စစ်တာ - is_empty
+စာအုပ်တွေ စုစုပေါင်း ဘယ်နှစ်အုပ်ရှိလဲစစ်တာ - size
+စာအုပ်တွေကို အကုန်ရှင်းထုတ်ပလိုက်မယ် - clear
+
+ရှင်းအောင်လို့စာအုပ်နဲ့ပြောသွားပေမယ့် 
+array ကို မြင်အောင်ကြည့်တာ ပိုအဆင်ပြေတယ်
+
+*********************
+
+class Stack{
+    // constructor နဲ့ initial value သတ်မှတ်ထားတယ်
+    constructor(){
+        this.items = []
+    }
+
+    // array ထဲကို original method push သုံးပြီးထည့်လိုက်တယ်
+    push(name){
+        this.items.push(name)
+    }
+
+    // array ထဲက original method pop သုံးပြီး remove လုပ်လိုက်တယ်
+    pop(){
+        this.items.pop()
+    }
+
+    // array length ကို သုံးပြီး ဘယ်နှစ်ခုရှိလဲဆိုတာတွက်ထားတာ 
+    size(){
+        return this.items.length
+    }
+
+    // အပေါ်ဆုံးက value ကိုလိုချင်လို့ အဲ့ value ကနောက်ဆုံးမှာ ရောက်နေ
+    // လို့ နောက်ဆုံး value ကို ပြန်ရှာထားတား
+    peek(){
+        return this.items[this.size()-1]
+    }
+
+    // array length zero ဖြစ်လားစစ်တာ size method ရေးပြီးသား 
+    // ဖြစ်နေလို့ ပြန်ခေါ်သုံးထားတာ
+    is_empty(){
+        return this.size() === 0
+    }
+
+    // အကုန်ရှင်းလိုက်တာ
+    clear(){
+        this.items = []
+    }
+}
+
+let stack = new Stack()
+console.log(stack.is_empty()) // true တစ်ခုမှမထည့်ရသေးလို့
+
+stack.push("HTML")
+stack.push("CSS")
+stack.push("JS")
+stack.push("NODEJS")
+
+console.log(stack.size()) //4
+
+stack.pop() // တစ်ခုဖျက်လိုက်မယ် NODEJS ပျက်သွားမယ်
+
+console.log(stack.peek()) // JS ထွက်လာမယ်
+console.log(stack.is_empty()) // false (3ခုရှိနေလို့)
+
+
+*********************
+
+

@@ -1,0 +1,107 @@
+Data Structure -  Part 1 ( JavaScript )
+
+Programming ကို လေ့လာနေတဲ့သူတွေက Data Structure ပါတွဲလေ့လာသင့်ပါတယ်
+ကျနော်တို့က Code ‌ရေးတယ် / Code အလုပ်လုပ်ရင်ရပြီဆိုပြီး ထားလိုက်လို့မရပါဘူး
+ကိုယ်ရေးလိုက်တာက Performance ကို ထိစေလားဆိုတာပါ တွေးရပါမယ်
+
+အရေးကြီးအချက် ၂ ချက်ရှိတယ်
+Time (site ကလည်း ကြာလိုက်တာ လေးကန်နေတာပဲ )
+Memory (Memory ပေါ်မှာ အလုပ်အရမ်းများသွားရင်လည်း Memory Leaks ဖြစ်နိုင်ပါတယ်)
+
+Big O Notation ကိုသုံးပြီး ကိုယ်ရေးလိုက်တာက Good, Bad လားပြန်စဉ်းစားလို့ရတယ်
+(https://www.bigocheatsheet.com/) ဒီ site မှာ လေ့လာကြည့်လို့ရတယ်
+N ( number of steps )
+O stands for Order Of, so O(N) is read "Order of N" 
+Time ( အချိန်ကို ဘယ်လိုတွက်မလဲ  ) ဆိုတာဆက်ကြည့်ရအောင်
+
+.....................
+
+For Table Listing
+
+let todo_list = []
+for(let i = 1; i <= 100; i++){
+    todo_list.push({
+        id: i,
+        task: `Task ${i}`,
+        done: false
+    })
+}
+Array ထဲမှာ Item - 100 ထည့်ထားတယ် အဲ့အတွက် သူ့ကြာချိန်က
+{ id: i, task: `Task ${i}`, done: false } 
+Eg. အနေနဲ့ ရှင်းပြတာ အဲ့လောက်မကြာဘူးနော် 
+obj တစ်ခုဆောက်မယ်
+ဆောက်ထားတဲ့ obj ကို Array ထဲထည့်မယ်
+အဲ့ Process ရဲ့ အချိန်က 1s ဆိုရင် 
+ကျနော်တို့က 100 ကြိမ်လုပ်မှာဆိုတော့ 1s * 100
+100s ကြာနိုင်တယ် 
+
+Big-O နဲ့ကြည့်မယ်ဆိုရင် N * O(1) => O(N)
+
+(
+    Database ထဲမှာ record ပေါင်း ထောင်နဲ့ ချီရှိရင် အကုန်ဆွဲထုတ်တာထက်
+    pagination, offset, limit သုံးပြီး တစ်ခါခေါ်ရင် 20 / 50 / 100 လောက်ပဲ
+    ဆွဲထုတ်ပြသင့်တယ် ရှိသမျှအကုန်ဆွဲထုတ်လိုက်ရင်တော့ 
+    table က loading အကြာကြီး
+    ဖြစ်နေမှာပါ
+)
+
+........................
+
+Add
+
+မြင်သာအောင်လို့ 10000000 လောက်နဲ့စမ်းကြမယ်
+item တစ်ခုထပ်ထည့်ချင်တယ်
+push method သုံးလို့ရတယ် 
+
+**********
+
+let todo_list = []
+for(let i = 1; i <= 10000000; i++){
+    todo_list.push({
+        id: i,
+        task: `Task ${i}`,
+        done: false
+    })
+}
+
+let start = Date.now() // စတဲ့အချိန်
+todo_list.push({ id: 101, task: 'Task 101', done: false })
+let end = Date.now() // ဆုံးတဲ့အချိန်
+
+console.log("todo_list length", todo_list.length) //10000001
+console.log("time", end - start) // 0
+
+**********
+
+obj တစ်ခုဆောက်မယ် ဆောက်ထားတဲ့ obj ကို Array ထဲထည့်မယ်
+အဲ့ Process ရဲ့ အချိန်က 1s ဆိုရင်
+Add လုပ်လိုက်တဲ့ အချိန်ကလည်း 1s ပဲ သူက မူရင်း Array ကို ဘာမှ
+လုပ်စရာမလိုဘူး သူ့နောက်ကနေသွားထပ်ထည့်လိုက်တာ
+
+ထပ်ထည့်လိုက်တာကို နောက်ဆုံးမှာ မလိုချင်ဘူး ရှေ့ဆုံးမှာပြပေးဆိုရင်
+unshift ကိုသုံးလို့ရတယ်
+
+todo_list.unshift({ id: 101, task: 'Task 101', done: false })
+console.log("todo_list length", todo_list.length) // 10000001
+console.log("time", end - start) // ကြာချိန်တွေထွက်လာပါပြီ
+
+ဘာလို့လဲဆိုတော့ Array unshift က ရှေ့ဆုံးက စထည့်တာ
+မူရင်း array index ကို loop ပတ်ပြီး နောက် တစ်နေရာစီကိုရွေ့သွးလို့
+သူ့ Execution time က  1s * 1000000 ဖြစ်သွားမှာ
+Big-O နဲ့ကြည့်မယ်ဆိုရင် N * O(1) => O(N)
+
+
+Push/Pop - O(1)
+Shift/unshift - O(n) လို့မှတ်မို့ရတယ်
+
+
+ရှေ့ဆုံးက ထည့်ချင်တာ အကြာကြီးလည်းမဖြစ်စေချင်ဘူးဆိုရင်
+ဘယ်လိုရှင်းရမလဲဆိုတော့
+
+Data Structure တွေဖြစ်တဲ့
+
+Stack (LIFO) Last in, first out
+Queue (FIFO) First In, First Out
+
+တို့ကိုသုံးပြီးရှင်းလို့ရပါတယ်
+ဒီလောက်ဆိုရင် အရေးပါပုံ နည်းနည်းလောက်မြင်ပြီထင်တာပါပဲ :P

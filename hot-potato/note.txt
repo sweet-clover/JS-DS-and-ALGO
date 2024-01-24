@@ -1,0 +1,107 @@
+Data Structures in JavaScript -  Part 5 ( Circular Queue )
+
+
+Queue ကိုလည်း နားလည်ပြီထင်တယ်ပါတယ် သူက FIFO နဲ့ 
+
+Circular Queue က ငယ်ငယ်တုန်းက ဆော့ ဘူးတဲ့ Gameလေး
+နဲ့ဆင်တယ် သူငယ်ချင်းတွေ အဝိုင်းလိုက်ကလေး စုပြီးတော့ သီချင်းဖွင့်
+လက်ထဲမှာ ဘောလုံးဖြစ်ဖြစ် ပစ္စည်းတစ်ခုခု အစဉ်လိုက်ပေးသွားတာ
+သီချင်းရပ်သွားတာနဲ့ လက်ထဲမှာ ဘောလုံးရှိတဲ့ တစ်ယောက်ကို ထုတ်လိုက်တယ် ကျန်တဲ့သူ ဆက်ဆော့ရင်းနဲ့ နောက်ဆုံး ကျန်တဲ့သူက winner ပဲ
+(Hot Potato) လို့လည်းခေါ််််တယ်ယ
+
+သူငယ်ချင်း 5 ယောက်ရှိတယ် 
+["A", "B", "C", "D", "E"]
+သီချင်းနေရာမှာ count limit 7 ထားလိုက်မယ် 
+
+စစချင်းက A အဝိုင်းပုံသွားမှာဖြစ်လို့ သူက နောက်ဆုံးပြန်ရောက်သွားမယ်
+["B", "C", "D", "E", "A"] count က 1
+
+ပြီးရင် B
+["C", "D", "E", "A", "B"] count က 2
+
+ပြီးရင် C
+["D", "E", "A", "B", "C"] count က 3
+
+ပြီးရင် D
+["E", "A", "B", "C", "D"] count က 4
+
+ပြီးရင် E
+["A", "B", "C", "D", "E"] count က 5
+
+
+1 ပတ်ပြည့်သွားပြီး A က ပြန်စမယ်
+["B", "C", "D", "E", "A"] count က 6
+
+ပြီးရင် B
+["C", "D", "E", "A", "B"] count က 7
+
+Count ပြည့်သွားပြီ C လက်ထဲမှာ ဘောလုံး
+C ထုတ်ခံလိုက်ရပြီ
+
+['D', 'E', 'A', 'B'] ဆက်ဆော့မယ်
+နောက်ဆုံး ကျန်ခဲ့တဲ့သူက အနိုင်ပဲ
+
+..............................
+
+process flow ကို မြင်ပြီဆိုတော့ ဘယ်လိုရေးမလဲ
+စဉ်းစားကြည့်ရအောင်
+
+
+["A", "B", "C", "D", "E"]
+A ကိုထုတ်မယ် queue.dequeue()
+နောက်ဆုံးက ပြန်ထည့်မယ် queue.enqueue(ထုတ်လိုက်တဲ့ A)
+ဘယ်အချိန်ထိလုပ်နေမှာလဲဆိုတော့ 7 count ပြည့်တဲ့အထိ
+for(let i = 0; i < count; i++)
+
+Count ပြည့်သွားရင် ရလာတဲ့ result
+["C", "D", "E", "A", "B"]
+အဲ့ထဲက ပထမဆုံးတစ်ခုကိုပြန်ဖယ်ထုတ်
+
+ကျန်တာဆက်ကစား ဘယ်အထိလဲ 
+တစ်ယောက်တည်းကျန်တဲ့အထိ
+while(queue.size() > 1)
+
+အရင်ရေးထားတဲ့ Queue class ထဲက enqueue, dequeue,
+size ပြန်သုံးမ်
+
+**************************
+
+function hotPotato(names, num){
+    let queue = new Queue()
+    let selected = ''
+
+    //queue ထဲကို names တွေထည့်လိုက်တာ
+    for(let i = 0; i < names.length; i++){
+        queue.enqueue(names[i])
+    }
+
+    // size က 1 ဖြစ်တဲ့ထိ loop ပတ်နေမှာ
+    while(queue.size() > 1){
+
+        // count ပြည့်ထဲအထိ နေရာပြောင်းပေးတာ
+        for(let i = 0; i < num; i++){
+            queue.enqueue(queue.dequeue())
+        }
+
+        // count ပြည့်သွားလို့ ရှေ့ဆုံးလူကိုထုတ်လိုက်တာ
+        selected = queue.dequeue()
+        console.log(selected + ' was eliminated from the Hot Potato game.');
+    }
+    //နောက်ဆုံးတစ်ယောက်ကို ထုတ်လိုက်တာ (winner)
+    return queue.dequeue()
+}
+
+let names = ["A", "B", "C", "D", "E"];
+console.log(hotPotato(names, 7)) //A
+
+
+**************************
+
+
+Stack နဲ့ Queue ကို နားလည်ပြီထင်ပါတယ်
+ကိုယ့်ဘာသာစမ်းပြီး 
+Bank မှာ စောင့်ရတဲ့ Token ထုတ်တာတို့ 
+VIP ဆိုရင် Priority Queue သုံးပြီးစမ်းကြည့်တာဆို့
+Undo/Redo တို့ကို စမ်းရေးကြည့်လို့ရပါတယ်
+
+Ref: Learning-JavaScript-Data-Structures-and-Algorithms-Second-Edition.pdf
