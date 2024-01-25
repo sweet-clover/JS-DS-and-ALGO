@@ -1,0 +1,61 @@
+Data Structures in JavaScript -  Part 9 ( Dictionaries )
+
+Dictionary ကို  လူတိုင်း ကြည့်ဖူးမှာပါ
+
+သူ့က [key, value] pairs
+[key, value] တွေတွဲသိမ်းတာကို dictionary လို့ခေါ်တယ်
+
+example အနေနဲ့ dictionary တစ်ခုခုမှာ computer ဆိုပြီးသွားရိုက်
+ရှာကြည့်လိုက်ရင် 
+ 
+computer [key] - a machine that sends, receives, calculates, and stores information [value]
+ဆိုပြီးတွေ့ရမယ်
+Dictionary ကို Map လို့လည်း ခေါ်ကြတယ်
+Map အကြောင်းရေးထားတာရှိတယ်
+https://www.facebook.com/permalink.php?story_fbid=122127110000102747&id=61553082429213
+
+PHP လေ့လာဖူးတဲ့သူတွေသိလိမ်မ့ယ် Dictionary က Associative array နဲ့တူတူပဲ
+$car = array("brand"=>"Ford", "model"=>"Mustang", "year"=>1964);
+
+.....................
+
+Map နဲ့ Simple Object ဘာကွာလည်း ကြည့်ကြမယ်
+key ကို unique ဖြစ်အောင် random ထုတ်လိုက်မယ်
+let key = Math.floor(new Date().valueOf() * Math.random())
+
+ရိုးရိုး Object မှာဆိုရင် key က Number ဖြစ်နေလို့ string ပြောင်းမယ့် step 
+တစ်ခုပိုလာမယ်
+
+Map မှာဆိုရင် any ဖြစ်လို့ type convert လုပ်တဲ့ step မလိုဘူး
+
+INSERT 
+
+*********************
+// Object
+let obj = {}
+let startTime = Date.now()
+let endTime;
+for (let i = 0; i < 100000; i++) {
+    let key = Math.floor(new Date().valueOf() * Math.random())
+    obj[key] = i
+}
+endTime = Date.now()
+console.log("time ", endTime - startTime) //271
+// ကြာချိန်က စက်ပေါ်မူတည်ပြီးပြောင်းနိုင်တယ်
+
+
+// Map
+const arr = new Array(100000).fill(0).map(() => Math.random())
+let m = new Map();
+let startTime = Date.now()
+let endTime;
+for (let i = 0; i < 100000; i++) {
+    let key = Math.floor(new Date().valueOf() * Math.random())
+    m.set(key, i);
+}
+endTime = Date.now()
+console.log("time ", endTime - startTime) //116
+
+*********************
+
+🍀🍀🍀🍀
