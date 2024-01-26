@@ -1,61 +1,154 @@
-Data Structures in JavaScript -  Part 9 ( Dictionaries )
+Data Structures in JavaScript -  Part 10 ( Simple Hash Table )
 
-Dictionary ကို  လူတိုင်း ကြည့်ဖူးမှာပါ
+Hashing ဆိုတာက data ကို သိမ်းတာပြန်ထုတ်ပြတာ လုပ်တဲ့အချိန် ပိုမြန်အောင်လို့
+သုံးတာ Dictionary (Map) မှာ time တွက်ပြခဲ့တယ် အဲ့ထက်ပိုကောင်းအောင် လုပ်ချင်ရင်
+Hashing သုံးလို့ရတယ်
 
-သူ့က [key, value] pairs
-[key, value] တွေတွဲသိမ်းတာကို dictionary လို့ခေါ်တယ်
+"Clover" => "67+108+111+118+101+114" => "619"
+Number တွေဘယ်လိုတွက်လဲသိချင်ရင် အောက်က link မှာ ဖတ်လို့ရပါတယ်
+https://www.facebook.com/permalink.php?story_fbid=122127663404102747&id=61553082429213
 
-example အနေနဲ့ dictionary တစ်ခုခုမှာ computer ဆိုပြီးသွားရိုက်
-ရှာကြည့်လိုက်ရင် 
- 
-computer [key] - a machine that sends, receives, calculates, and stores information [value]
-ဆိုပြီးတွေ့ရမယ်
-Dictionary ကို Map လို့လည်း ခေါ်ကြတယ်
-Map အကြောင်းရေးထားတာရှိတယ်
-https://www.facebook.com/permalink.php?story_fbid=122127110000102747&id=61553082429213
+hash_value = key % table_size
+key က "619" 
+table_size က ကျနော်တို့ မသတ်ထားရင် arbitrary number တစ်ခု သုံးလို့ရတယ်
+hash အတွက်ဆိုရင် 37  သုံးကြတယ်
 
-PHP လေ့လာဖူးတဲ့သူတွေသိလိမ်မ့ယ် Dictionary က Associative array နဲ့တူတူပဲ
-$car = array("brand"=>"Ford", "model"=>"Mustang", "year"=>1964);
+.........................
 
-.....................
+Code ကြည့်ရအောင် Constructor ရှိမယ်
+ပြီးရင် put(insert), remove(delete), get methods တွေရှိမယ်
 
-Map နဲ့ Simple Object ဘာကွာလည်း ကြည့်ကြမယ်
-key ကို unique ဖြစ်အောင် random ထုတ်လိုက်မယ်
-let key = Math.floor(new Date().valueOf() * Math.random())
-
-ရိုးရိုး Object မှာဆိုရင် key က Number ဖြစ်နေလို့ string ပြောင်းမယ့် step 
-တစ်ခုပိုလာမယ်
-
-Map မှာဆိုရင် any ဖြစ်လို့ type convert လုပ်တဲ့ step မလိုဘူး
-
-INSERT 
-
-*********************
-// Object
-let obj = {}
-let startTime = Date.now()
-let endTime;
-for (let i = 0; i < 100000; i++) {
-    let key = Math.floor(new Date().valueOf() * Math.random())
-    obj[key] = i
+class HashTable{
+    constructor(){
+        this.table = []
+    }
 }
-endTime = Date.now()
-console.log("time ", endTime - startTime) //271
-// ကြာချိန်က စက်ပေါ်မူတည်ပြီးပြောင်းနိုင်တယ်
 
+.........................
 
-// Map
-const arr = new Array(100000).fill(0).map(() => Math.random())
-let m = new Map();
-let startTime = Date.now()
-let endTime;
-for (let i = 0; i < 100000; i++) {
-    let key = Math.floor(new Date().valueOf() * Math.random())
-    m.set(key, i);
+ပြီးရင် key က string လာမှာဆိုတော့ Integer ပြောင်းတဲ့ method ရှိမယ်
+"Clover" => "67+108+111+118+101+114" => 619 % 37 => 27
+hash အတွက်ဆိုရင် 37  သုံးကြတယ်
+% က အကြွင်းကိုယူတာ
+
+function hashCode(key){
+    let hash = 0
+    for(let i = 0; i < key.length; i++){
+        hash += key.charCodeAt(i)
+    }
+    return hash % 37
 }
-endTime = Date.now()
-console.log("time ", endTime - startTime) //116
 
-*********************
+.........................
+
+Put ကို စဉ်းစားကြည့်ရအောင် key, value ရှိမယ်
+key က  "Clover" ပေးလိုက်မယ်
+value က "A clover is a small plant with bright green leaves"
+index ပြန်ရှာလိုက်တော့ 27
+
+Constructor ထဲက table property က array
+this.table[27] = value
+အဲ့လိုဝင်သွားရမယ်
+
+Note: မြင်လားတော့မရှိဘူး key ကို တိုက်ရိုက်မသုံးဘဲ index ပြောင်းသုံးသွားတာ
+
+*************
+
+put(key, value){
+    let index = hashCode(key)
+    this.table[index] = value
+}
+
+*************
+
+table [
+  <27 empty items>, 
+  'A clover is a small plant with bright green leaves'
+]
+27 empty items - 0 to 26 က empty အနေနဲ့ရှိနေမယ်
+
+.........................
+
+GET 
+
+GET ဆိုလည်း key နဲ့သွားရှာမှာ
+key ကို index ပြောင်းပြီးခေါ်လိုက်ရင်ရပြီ
+
+*************
+
+ get(key){
+    let index = hashCode(key)
+    return this.table[index]
+}
+
+*************
+
+.........................
+
+Remove 
+
+Remove ဆိုလည်း key ကို index ပြောင်းပြီး
+array ထဲက ဖျက်လိုက်လည်းရပြီ
+
+*************
+
+remove(key){
+    let index = hashCode(key)
+    delete this.table[index]
+}
+
+*************
+
+Sample Code
+
+*************
+
+function hashCode(key){
+    let hash = 0
+    for(let i = 0; i < key.length; i++){
+        hash += key.charCodeAt(i)
+    }
+    return hash % 37
+}
+
+class HashTable{
+    constructor(){
+        this.table = []
+    }
+
+    put(key, value){
+        let index = hashCode(key)
+        this.table[index] = value
+    }
+
+    get(key){
+        let index = hashCode(key)
+        return this.table[index]
+    }
+
+    remove(key){
+        let index = hashCode(key)
+        delete this.table[index]
+    }
+}
+
+let ht = new HashTable()
+ht.put("Clover", "A clover is a small plant with bright green leaves")
+ht.remove('Clover')
+console.log("table", ht.get("Clover"))
+
+*************
+
+ဒီအတိုင်းဆိုရင် basic က ရပြီပြီ
+ပြသနာက key က "Clover" ရှိပြီးသား
+နောက်တစ်ခုကို "Coverl" ဆိုပြီးနောက်တစ်ခုထပ်ထည့်မယ်
+သူတို့နှစ်ခုရဲ့ index က တူတူပဲဆိုရင် overwrite ဖြစ်သွားမယ်
+Clover => 27
+Coverl => 27
+
+အဲ့တာကိုရှင်းဖို့လိုတယ် အဲ့ပြသနာကို (Handling collisions)
+လို့ခေါ်တယ်
+
+နောက်တစ်ပိုင်းမှာဆက်ကြည့်ကြမယ်
 
 🍀🍀🍀🍀
