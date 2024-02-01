@@ -1,0 +1,86 @@
+Data Structures in JavaScript -  Part 9 ( Handling Collisions between Hash Tables )
+
+အရင်အပိုင်းမှာ key က တူရင် overwrite ဖြစ်သွားတာပြောခဲ့တယ်
+အဲ့တာကို ဆက်ကြည့်မယ်
+
+Collisions ကို ထိန်းလို့ရတဲ့ techniques တွေရှိတယ်
+Separate chaining
+Linear probing
+Double Hashing
+အဲ့တာတွေသုံးပြီးထိန်းလို့ရတယ်
+
+.....................
+
+Separate chaining
+Separate Chaining is the collision resolution technique that is implemented using linked list.
+သူက linked list ကို သုံးပြီး ဖြေရှင်းသွားတာ
+
+linked list က ရေးပေးပြီးသား
+Data Structures in JavaScript -  Part 6 ( Linked List -  only head)
+https://www.facebook.com/permalink.php?story_fbid=122122577432102747&id=61553082429213
+
+
+အဲ့တော့ စဉ်းစားကြည့်ကြည့်
+Clover => 27
+Coverl => 27
+တူသွားပြီဆိုရင် key ဘာသိမ်းဖို့လိုလာပြီ အဲ့ အတွက် class
+တစ်ခုထပ်ခွဲလိုက်မယ်
+
+class ValuePair{
+    constructor(key, value){
+        this.key = key
+        this.value = value
+    }
+
+    toString(){
+        return '['+this.key+'-'+this.value+']'
+    }
+}
+
+
+Linked List ကို သုံးမှာဖြစ်လို့ head ရှိမယ် ထပ်ထည့်ရင်
+prepend method သုံးမှာ ဖြစ်လို့ next null ဖြစ်တဲ့နေရာ ဝင်သွားမယ်
+27(index) => {
+    "head": {
+        "value": {
+            "key": "Clover",
+            "value": "A clover is a small plant with bright green leaves"
+        },
+        "next": {
+            "value": {
+                "key": "Coverl",
+                "value": "testing"
+            },
+            "next": null
+        }
+    },
+    "size": 2
+}
+ထပ်ထည့်လို့ index က တူခဲ့ရင် next null ဖြစ်တဲ့နေရာမှာ ထပ်ထည့်သွားမှာ
+
+.....................
+
+Linear probing
+
+သူက index က ရှိပြီးသားဆိုရင် index + 1 (1 ပေါင်းပြီး) ထပ်ထည့်သွားတာ
+
+Clover => 27 
+(27 က ရှိပြီးသားဆိုတော့ နောက်ထည့်ထာက 28 နေရာ ရောက်သွားမယ်)
+Coverl => 28
+
+table [
+  <27 empty items>,
+  ValuePair { key: 'Clover', value: 'A clover is a small plant.' },
+  ValuePair { key: 'Coverl', value: 'testing' }
+]
+
+ထည့်တာက ရပြီ GET က ရင် ဘယ်လိုပြန်ရှာမှာလဲ ထပ်စဉ်းစားကြည့်မယ်
+Coverl က ပေါင်းရင် 27 
+27 ကို ကြည့်လိုက် အဲ့က key: "Clover" မတူဘူး 1 ထပ်တိုး
+28 ကို ထပ်ကြည့် key: 'Coverl' တူတယ် အဲ့တာထုတ်ပြရင်ရပြီ
+
+.....................
+
+
+
+🍀🍀🍀🍀

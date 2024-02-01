@@ -28,5 +28,5 @@ class HashTable{
 }
 
 let ht = new HashTable()
-ht.put("Coverl", "A clover is a small plant with bright green leaves")
+ht.put("Coverl", "A clover is a small plant.")
 console.log("table", ht.get("Clover"))
