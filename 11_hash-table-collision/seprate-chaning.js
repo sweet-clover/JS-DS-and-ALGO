@@ -9,8 +9,8 @@ function loseloseHashCode(key){
 
 // Linked List Start
 class Node {
-    constructor(value) {
-        this.value = value
+    constructor(element) {
+        this.element = element
         this.next = null
     }
 }
@@ -29,8 +29,8 @@ class LinkedList {
         return this.head
     }
 
-    prepend(value) {
-        let node = new Node(value)
+    prepend(element) {
+        let node = new Node(element)
         if (this.isEmpty()) {
             this.head = node
         } else {
@@ -40,8 +40,8 @@ class LinkedList {
         this.size++
     }
 
-    append(value) {
-        let node = new Node(value)
+    append(element) {
+        let node = new Node(element)
         if (this.isEmpty()) {
             this.head = node
         } else {
@@ -54,15 +54,15 @@ class LinkedList {
         this.size++
     }
 
-    insert(position, value) {
+    insert(position, element) {
         if (position < 0 || position >= this.size) {
             return false
         }
 
         if (position === 0) {
-            return this.prepend(value)
+            return this.prepend(element)
         } else {
-            let node = new Node(value)
+            let node = new Node(element)
             let current = this.head;
             let prev = null
             let i = 0;
@@ -81,7 +81,7 @@ class LinkedList {
         let current = this.head
         let i = 0
         while (current) {
-            if (current.value === element) {
+            if (current.element === element) {
                 return i
             }
             i++
@@ -119,14 +119,13 @@ class LinkedList {
         let current = this.head
         let str = ''
         while (current) {
-            str += current.value + ' '
+            str += current.element + ' '
             current = current.next
         }
         return str
     }
 }
 // Linked List End
-
 
 class ValuePair{
     constructor(key, value){
@@ -162,14 +161,14 @@ class HashTable{
             // ရပြီ
 
             while(current.next){
-                if(current.value.key === key){
-                    return current.value.value
+                if(current.element.key === key){
+                    return current.element.value
                 }
                 current = current.next;
             }
 
-            if(current.value.key === key){
-                return current.value.value;
+            if(current.element.key === key){
+                return current.element.value;
             }
         }
 
@@ -181,8 +180,8 @@ class HashTable{
         if(this.table[position] !== undefined){
             let current = this.table[position].getHead()
             while(current.next){
-                if(current.value.key === key){
-                    this.table[position].remove(current.value)
+                if(current.element.key === key){
+                    this.table[position].remove(current.element)
                     if(this.table[position].isEmpty()){
                         this.table[position] = undefined
                     }
@@ -191,8 +190,8 @@ class HashTable{
                 current = current.next;
             }
 
-            if(current.value.key === key){
-                this.table[position].remove(current.value)
+            if(current.element.key === key){
+                this.table[position].remove(current.element)
                 if(this.table[position].isEmpty()){
                     this.table[position] = undefined
                 }
@@ -220,5 +219,6 @@ hash.put("Clover", "A clover is a small plant with bright green leaves")
 hash.put("Coverl", "testing")
 
 console.log(hash.get("Coverl"))
-console.log(hash.remove("Coverl"))
+console.log(hash.get("Clover"))
+console.log(hash.remove("Clover"))
 console.log(hash.table)
